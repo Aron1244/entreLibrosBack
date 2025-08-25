@@ -10,7 +10,7 @@ class Payment extends Model
 
     protected $fillable = [
         'order_id',
-        'transbank_token',
+        'transaction_token',
         'status',
         'monto',
         'response_code',
