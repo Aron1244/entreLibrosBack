@@ -29,6 +29,7 @@ class Book extends Model
         'reviews',
         'generos',
         'tags',
+        'archivo_epub'
     ];
 
     protected $casts = [

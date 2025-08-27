@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Http\Response;
 
 class BookController extends Controller
@@ -49,7 +50,19 @@ class BookController extends Controller
             'reviews' => 'nullable|integer',
             'generos' => 'nullable|array',
             'tags' => 'nullable|array',
+            'archivo_epub' => 'nullable|file|mimes:epub',
         ]);
+
+        // Manejar la subida del archivo epub
+        if ($request->hasFile('archivo_epub')) {
+            $file = $request->file('archivo_epub');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('ebooks'), $filename);
+            $validated['archivo_epub'] = 'ebooks/' . $filename;
+        } else {
+            unset($validated['archivo_epub']);
+        }
+
         $book = Book::create($validated);
         return response()->json($book, 201);
     }
@@ -82,7 +95,19 @@ class BookController extends Controller
             'reviews' => 'nullable|integer',
             'generos' => 'nullable|array',
             'tags' => 'nullable|array',
+            'archivo_epub' => 'nullable|file|mimes:epub',
         ]);
+
+        // Manejar la subida del archivo epub en update
+        if ($request->hasFile('archivo_epub')) {
+            $file = $request->file('archivo_epub');
+            $filename = \Illuminate\Support\Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('ebooks'), $filename);
+            $validated['archivo_epub'] = 'ebooks/' . $filename;
+        } else {
+            unset($validated['archivo_epub']);
+        }
+
         $book->update($validated);
         return response()->json($book);
     }

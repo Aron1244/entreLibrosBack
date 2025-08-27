@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->default('User');
             $table->string('email')->unique();
             $table->string('password');
-$table->binary('avatar')->nullable();
+            $table->binary('avatar')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('role')->default('user'); // user, admin, etc.
@@ -39,6 +39,14 @@ $table->binary('avatar')->nullable();
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        \App\Models\User::create([
+            'name' => 'admin',
+            'email' => 'admin@mail.com',
+            'password' => bcrypt('admin123'),
+            'role' => 'admin',
+            'email_verified_at' => now(),
+        ]);
     }
 
     /**

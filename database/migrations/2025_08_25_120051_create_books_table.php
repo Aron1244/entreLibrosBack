@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('formato');
             $table->string('dimensiones');
             $table->string('peso');
+            $table->string('archivo_epub')->nullable()->comment('Ruta o nombre del archivo epub si es ebook');
             $table->integer('stock');
             $table->decimal('rating', 3, 2)->nullable();
             $table->integer('reviews')->nullable();
